@@ -41,3 +41,79 @@ BeverageItem & BeverageItem::operator=(BeverageItem && rhs) & noexcept {
     return *this;
 }
 
+//Destructor
+BeverageItem::~BeverageItem(){};
+
+//Accessors
+std::string const & BeverageItem::getBrandName() const & {
+    return _brandName;
+}
+std::string const & BeverageItem::getProductName() const & {
+    return _productName;
+}
+std::string const & BeverageItem::getUpcCode() const & {
+    return _upcCode;
+}
+double BeverageItem::getPrice() const & {
+    return _price;
+}
+int BeverageItem::getInvQuant() const & {
+    return _invQuant;
+}
+
+//Accessor for r-values
+std::string BeverageItem::getBrandName() && {
+    return std::move(this->_brandName);
+}
+std::string BeverageItem::getProductName() && {
+    return std::move(this->_productName);
+}
+std::string BeverageItem::getUpcCode() && {
+    return std::move(this->_upcCode);
+}
+
+//Modifiers
+BeverageItem & BeverageItem::brandName(std::string brandName) & {
+    _brandName = std::move(brandName);
+    return *this;
+}
+BeverageItem & BeverageItem::productName(std::string productName) & {
+    _productName = std::move(productName);
+    return *this;
+}
+BeverageItem & BeverageItem::upcCode(std::string upcCode) & {
+    _upcCode = std::move(upcCode);
+    return *this;
+}
+BeverageItem & BeverageItem::price(double price)          & {
+    _price = std::move(price);
+    return *this;
+}
+BeverageItem & BeverageItem::invQuant(int invQuant)          & {
+    _invQuant = std::move(invQuant);
+    return *this;
+}
+
+//Relational Operators
+std::weak_ordering BeverageItem::operator<=>(BeverageItem & rhs ) const noexcept {
+    /*Compare based on a set hierarchy: brandName -> productName -> upcCode */
+
+    if(auto result = _brandName <=> rhs.getBrandName(); result != 0) return result;
+    if(auto result = _productName <=> rhs.getProductName(); result != 0) return result;
+    if(auto result = _upcCode <=> rhs.getUpcCode(); result != 0) return result;
+
+    if(floating_point_is_equal(_price, rhs.getPrice())) return std::weak_ordering::equivalent;
+    if(_price > rhs.getPrice()) return std::weak_ordering::greater;
+    if(_price < rhs.getPrice()) return std::weak_ordering::less;
+
+}
+
+bool BeverageItem::operator==(BeverageItem & rhs ) const noexcept {
+    return _brandName == rhs.getBrandName() && _productName == rhs.getProductName() && 
+    _upcCode == rhs.getUpcCode() && 
+    floating_point_is_equal(_price, rhs.getPrice());
+}
+
+
+
+

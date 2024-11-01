@@ -44,10 +44,10 @@ class BeverageItem{
 
         //Modifiers
         BeverageItem & brandName(std::string brandName) &;
-        BeverageItem & brandName(std::string brandName) &;
-        BeverageItem & brandName(std::string brandName) &;
-        BeverageItem & brandName(double price)          &;
-        BeverageItem & brandName(int invQuant)          &;
+        BeverageItem & productName(std::string productName) &;
+        BeverageItem & upcCode(std::string upcCode) &;
+        BeverageItem & price(double price)          &;
+        BeverageItem & invQuant(int invQuant)          &;
 
 
         //Relational Operators
